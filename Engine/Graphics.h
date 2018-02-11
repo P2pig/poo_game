@@ -1,4 +1,4 @@
-/******************************************************************************************
+﻿/******************************************************************************************
 *	Chili DirectX Framework Version 16.07.20											  *
 *	Graphics.h																			  *
 *	Copyright 2016 PlanetChili <http://www.planetchili.net>								  *
@@ -27,10 +27,10 @@
 class Graphics
 {
 public:
-	class Exception : public ChiliException
+	class Exception: public ChiliException
 	{
 	public:
-		Exception( HRESULT hr,const std::wstring& note,const wchar_t* file,unsigned int line );
+		Exception( HRESULT hr, const std::wstring& note, const wchar_t* file, unsigned int line );
 		std::wstring GetErrorName() const;
 		std::wstring GetErrorDescription() const;
 		virtual std::wstring GetFullMessage() const override;
@@ -42,8 +42,8 @@ private:
 	// vertex format for the framebuffer fullscreen textured quad
 	struct FSQVertex
 	{
-		float x,y,z;		// position
-		float u,v;			// texcoords
+		float x, y, z;		// position
+		float u, v;			// texcoords
 	};
 public:
 	Graphics( class HWNDKey& key );
@@ -51,15 +51,34 @@ public:
 	Graphics& operator=( const Graphics& ) = delete;
 	void EndFrame();
 	void BeginFrame();
-	void PutPixel( int x,int y,int r,int g,int b )
+	void PutPixel( int x, int y, int r, int g, int b )
 	{
-		PutPixel( x,y,{ unsigned char( r ),unsigned char( g ),unsigned char( b ) } );
+		PutPixel( x, y, { unsigned char( r ),unsigned char( g ),unsigned char( b ) } );
 	}
-	void PutPixel( int x,int y,Color c );
-	void DrawRect( int x0,int y0,int x1,int y1,Color c );
-	void DrawRectDim( int x0,int y0,int width,int height,Color c )
+	void PutPixel( int x, int y, Color c );
+	void DrawRect( int x0, int y0, int x1, int y1, Color c );
+	void DrawRectDim( int x0, int y0, int width, int height, Color c )
 	{
-		DrawRect( x0,y0,x0 + width,y0 + height,c );
+		DrawRect( x0, y0, x0 + width, y0 + height, c );
+	}
+	void DrawCircle( int x, int y, int r, Color c )
+	{
+		// (x−h)2+(y−k)2=r2			  
+		const int rsq = r * r;
+
+		for( int i = (y - r); i < (y + r); i++ )
+		{
+			for( int j = (x - r); j < (x + r); j++ )
+			{
+				const int x_diff = x - i;
+				const int y_diff = y - j;
+
+				if( x_diff*x_diff + y_diff * y_diff <= rsq )
+				{
+					PutPixel( i, j, c );
+				}
+			}
+		}
 	}
 	~Graphics();
 private:
