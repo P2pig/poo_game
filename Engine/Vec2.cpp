@@ -44,7 +44,7 @@ float Vec2::getLength() const
 
 float Vec2::getLengthSq() const
 {
-	return x * x + y + y;
+	return x * x + y * y;
 }
 
 Vec2 Vec2::Normalize()
