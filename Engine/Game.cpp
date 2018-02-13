@@ -36,7 +36,7 @@ Game::Game( MainWindow& wnd )
 	std::uniform_real_distribution<float> vDist( -2.5f * 60.0f, 2.5f * 60.0f );
 	for( int i = 0; i < nPoo; ++i )
 	{
-		poos[i].Init( Vec2( xDist( rng ), yDist( rng ) ), Vec2( xDist( rng )*0.5f, yDist( rng ) *0.5f ) );
+		poos[i].Init( Vec2( xDist( rng ), yDist( rng ) ), Vec2( vDist( rng ), vDist( rng ) ) );
 	}
 	title.Play();
 }
@@ -71,7 +71,7 @@ void Game::UpdateModel()
 
 		if( goal.TestCollision( dude ) )
 		{
-			goal.Respawn( Vec2(xDist( rng ), yDist( rng )) );
+			goal.Respawn( Vec2( xDist( rng ), yDist( rng ) ) );
 			meter.IncreaseLevel();
 			pickup.Play( rng );
 		}
@@ -89,7 +89,7 @@ void Game::ComposeFrame()
 {
 	if( !isStarted )
 	{
-		SpriteCodex::DrawTitleScreen( 325, 211, gfx);
+		SpriteCodex::DrawTitleScreen( 325, 211, gfx );
 	}
 	else
 	{
